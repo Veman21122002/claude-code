@@ -528,3 +528,38 @@ a { color: inherit; text-decoration: none; }
     .nav-links a:not(.nav-cta) { display: none; }
     .hero { padding: 3rem 1rem 2rem; }
 }
+
+/* Profile Page */
+.profile-balance-container {
+    text-align: center;
+    padding: 20px 0;
+}
+.profile-balance-label {
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.profile-balance-amount {
+    font-size: 2.5rem;
+    color: var(--ink);
+    margin: 0;
+    font-family: var(--font-display);
+}
+.profile-details-divider {
+    border-top: 1px solid var(--border-soft);
+    margin-top: 20px;
+    padding-top: 20px;
+}
+.profile-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.profile-detail-label {
+    color: var(--ink-muted);
+}
+.profile-detail-value {
+    font-weight: 500;
+}

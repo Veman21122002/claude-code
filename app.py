@@ -1,7 +1,32 @@
 from flask import Flask, render_template, request, session, redirect, url_for
+import os
+from functools import wraps
 
 app = Flask(__name__)
-app.secret_key = "dev-key-for-mock-auth"
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-key-for-mock-auth")
+
+USER_ID_KEY = "user_id"
+USERNAME_KEY = "username"
+
+@app.template_filter('currency')
+def currency_filter(value):
+    return f"₹{value:,.2f}"
+
+@app.context_processor
+def inject_user():
+    return dict(current_user=session.get(USERNAME_KEY) if session.get(USER_ID_KEY) else None)
+
+def login_user(user_id, username):
+    session[USER_ID_KEY] = user_id
+    session[USERNAME_KEY] = username
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if USER_ID_KEY not in session:
+            return redirect(url_for("login"))
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 # ------------------------------------------------------------------ #
@@ -21,8 +46,7 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        session["user_id"] = 1
-        session["username"] = request.form.get("email")
+        login_user(1, request.form.get("email"))
         return redirect(url_for("profile"))
     return render_template("login.html")
 
@@ -38,12 +62,10 @@ def logout():
 
 
 @app.route("/profile")
+@login_required
 def profile():
-    if "user_id" not in session:
-        return redirect(url_for("login"))
-
     balance = 1250.50
-    return render_template("profile.html", balance=balance, username=session.get("username"))
+    return render_template("profile.html", balance=balance, username=session.get(USERNAME_KEY))
 
 
 @app.route("/expenses/add")

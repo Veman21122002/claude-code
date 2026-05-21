@@ -13,15 +13,15 @@
         </div>
 
         <div class="auth-card">
-            <div class="profile-balance-container" style="text-align: center; padding: 20px 0;">
-                <p style="color: #666; margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Current Balance</p>
-                <h2 style="font-size: 2.5rem; color: #1a1a1a; margin: 0;">₹{{ "%.2f"|format(balance) }}</h2>
+            <div class="profile-balance-container">
+                <p class="profile-balance-label">Current Balance</p>
+                <h2 class="profile-balance-amount">{{ balance|currency }}</h2>
             </div>
 
-            <div style="border-top: 1px solid #eee; margin-top: 20px; padding-top: 20px;">
-                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="color: #666;">User Email</span>
-                    <span style="font-weight: 500;">{{ username }}</span>
+            <div class="profile-details-divider">
+                <div class="profile-detail-row">
+                    <span class="profile-detail-label">User Email</span>
+                    <span class="profile-detail-value">{{ username }}</span>
                 </div>
             </div>
         </div>
