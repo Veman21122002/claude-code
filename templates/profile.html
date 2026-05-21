@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile — Spendly{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+    <div class="auth-container">
+
+        <div class="auth-header">
+            <h1 class="auth-title">Welcome, {{ username }}</h1>
+            <p class="auth-subtitle">Manage your account and view your balance</p>
+        </div>
+
+        <div class="auth-card">
+            <div class="profile-balance-container">
+                <p class="profile-balance-label">Current Balance</p>
+                <h2 class="profile-balance-amount">{{ balance|currency }}</h2>
+            </div>
+
+            <div class="profile-details-divider">
+                <div class="profile-detail-row">
+                    <span class="profile-detail-label">User Email</span>
+                    <span class="profile-detail-value">{{ username }}</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
