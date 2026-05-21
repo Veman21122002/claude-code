@@ -1,6 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, session, redirect, url_for
 
 app = Flask(__name__)
+app.secret_key = "dev-key-for-mock-auth"
 
 
 # ------------------------------------------------------------------ #
@@ -17,8 +18,12 @@ def register():
     return render_template("register.html")
 
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
+    if request.method == "POST":
+        session["user_id"] = 1
+        session["username"] = request.form.get("email")
+        return redirect(url_for("profile"))
     return render_template("login.html")
 
 
@@ -28,12 +33,17 @@ def login():
 
 @app.route("/logout")
 def logout():
-    return "Logout — coming in Step 3"
+    session.clear()
+    return redirect(url_for("landing"))
 
 
 @app.route("/profile")
 def profile():
-    return "Profile page — coming in Step 4"
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    balance = 1250.50
+    return render_template("profile.html", balance=balance, username=session.get("username"))
 
 
 @app.route("/expenses/add")
